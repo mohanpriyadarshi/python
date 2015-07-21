@@ -17,9 +17,9 @@ class DownloadWorker(Thread):
            # Get the work from the queue and expand the tuple
            name, link = self.queue.get()
            wait=random.randint(1,1)
-           print wait
-           print "start%s\n" %(link)
+           #print wait
            time.sleep(wait)
+           print "start%s\t%s\n" %(name,link)
            print link
            self.queue.task_done()
 
@@ -39,7 +39,7 @@ name=0
 for link in links:
     name+=1
     #print link
-    print "super"
+    #print "forloop",name
     queue.put((name, link))
 
 # Causes the main thread to wait for the queue to finish processing all the tasks
