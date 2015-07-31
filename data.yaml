@@ -1,0 +1,7 @@
+#4089217000
+# Data model
+- range    : ak100.yse.yahoo.net
+  segment: k
+
+- range    : afc100.yse.yahoo.net
+  segment: fastcrawl
