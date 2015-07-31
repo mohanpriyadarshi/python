@@ -18,7 +18,7 @@ class DownloadWorker(Thread):
            name, link = self.queue.get()
            wait=random.randint(1,1)
            #print wait
-           time.sleep(wait)
+           time.sleep(4)
            print "start%s\t%s\n" %(name,link)
            print link
            self.queue.task_done()
