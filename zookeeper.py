@@ -17,26 +17,50 @@ def watch_for_ro(state):
 
 
 zk.ensure_path("/my/favorite")
-#zk.create("/my/favorite/node1", b"c value")
+zk.set("/my/favorite/node", b"d value")
 
 if zk.exists("/my/favorite/node"):
     print "data exist"
 
 
-data, stat = zk.get("/my/favorite/node1")
-#print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
+data, stat = zk.get("/my/favorite/node")
+print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
 
 import yaml
+
+def zkyst(path,data='none'):
+    #if not zk.exists("/plang/"+str(hlist)):
+     #   print "creating folder"
+      #  zk.create("/plang/"+str(hlist))
+    print path
+    if zk.ensure_path(path):
+        zk.set(path,data)
+    data, stat = zk.get(path)
+    print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
+    children = zk.get_children(path)
+    print("There are %s children with names %s" % (len(children), children))
+
+def zkgetyst(path,key):
+    pathk=str(path)+'/'+str(key)
+    print pathk +"oook"
+    #exit()
+    try:
+        zk.ensure_path(pathk)
+        data, stat = zk.get(path)
+        print("Super Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
+    except:
+        print "Not a valid path %s"%(pathk)
+
+keys=('segment','simon')
+
 f = open('data.yaml')
 # use safe_load instead load
 dataMap = yaml.safe_load(f)
 for i in dataMap:
     hlist=i['range']
-    #if not zk.exists("/plang/"+str(hlist)):
-     #   print "creating folder"
-      #  zk.create("/plang/"+str(hlist))
-    if zk.ensure_path("/plang/"+str(hlist)):
-        zk.set("/plang/"+str(hlist), 'Segment'" "+str(i['segment']))
-    data, stat = zk.get("/plang/"+str(hlist))
-    print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
+    for k in keys:
+        path="/plang/"+str(hlist)+'/'+str(k)
+        zkyst(path,i[k])
+ #   path=["/plang/"+str(hlist)]
+#    map(zkgetyst,path,keys)
 

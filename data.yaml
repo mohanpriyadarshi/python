@@ -1,7 +1,13 @@
 #4089217000
 # Data model
 - range    : ak100.yse.yahoo.net
-  segment: k
+  segment: k-segment
+  simon:  simon1
 
 - range    : afc100.yse.yahoo.net
   segment: fastcrawl
+  simon:  simon2
+
+- range    : rti100.yse.yahoo.net
+  segment: rtisegment
+  simon:  simon3
