@@ -2,9 +2,21 @@ __author__ = 'mohanchintamanapinna'
 from kazoo.client import KazooClient
 from kazoo.client import KeeperState
 from kazoo.client import KazooState
+import pprint
 
+pp=pprint.PrettyPrinter(indent=4)
 zk = KazooClient(hosts='127.0.0.1:2181')
 zk.start()
+
+class AutoVivification(dict):
+    """Implementation of perl's autovivification feature."""
+    def __getitem__(self, item):
+        try:
+            return dict.__getitem__(self, item)
+        except KeyError:
+            value = self[item] = type(self)()
+            return value
+
 
 @zk.add_listener
 def watch_for_ro(state):
@@ -28,14 +40,15 @@ print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
 
 import yaml
 
-def zkyst(path,data='none'):
+def zkset(path,key,data):
     #if not zk.exists("/plang/"+str(hlist)):
      #   print "creating folder"
       #  zk.create("/plang/"+str(hlist))
-    print path
-    if zk.ensure_path(path):
-        zk.set(path,data)
-    data, stat = zk.get(path)
+    pathk=str(path)+str(key)
+    print pathk
+    if zk.ensure_path(pathk):
+        zk.set(pathk,data)
+    data, stat = zk.get(pathk)
     print("Version: %s, data: %s" % (stat.version, data.decode("utf-8")))
     children = zk.get_children(path)
     print("There are %s children with names %s" % (len(children), children))
@@ -51,16 +64,22 @@ def zkgetyst(path,key):
     except:
         print "Not a valid path %s"%(pathk)
 
-keys=('segment','simon')
+
 
 f = open('data.yaml')
 # use safe_load instead load
 dataMap = yaml.safe_load(f)
-for i in dataMap:
+keys=dataMap['keys']
+pp.pprint(dataMap)
+for i in dataMap['datamodel']:
+    pp.pprint(i)
+    #print i
     hlist=i['range']
     for k in keys:
-        path="/plang/"+str(hlist)+'/'+str(k)
-        zkyst(path,i[k])
+        #path="/plang/"+str(hlist)+'/'+str(k)
+        path="/plang/"+str(hlist)+'/'
+        print path,"\t",k,"\t",i[k],"oook"
+        zkset(path,k,i[k])
  #   path=["/plang/"+str(hlist)]
 #    map(zkgetyst,path,keys)
 
