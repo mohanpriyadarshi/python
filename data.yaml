@@ -1,13 +1,25 @@
 #4089217000
+#keys to update
+#- range1    : segment
+#Keys
+keys    :
+  - segment
+  - simon
+  - restart
+
 # Data model
-- range    : ak100.yse.yahoo.net
-  segment: k-segment
-  simon:  simon1
+datamodel:
+   - range    : ak100.yse.yahoo.net
+     segment: k-segment
+     simon:  simon1
+     restart:  '1'
 
-- range    : afc100.yse.yahoo.net
-  segment: fastcrawl
-  simon:  simon2
+   - range    : afc100.yse.yahoo.net
+     segment: fastcrawl
+     simon:  simon2
+     restart:  '1'
 
-- range    : rti100.yse.yahoo.net
-  segment: rtisegment
-  simon:  simon3
+   - range    : rti100.yse.yahoo.net
+     segment: rtisegment
+     simon:  simon3
+     restart:  '1'

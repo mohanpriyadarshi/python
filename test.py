@@ -1,13 +1,10 @@
 __author__ = 'mohanchintamanapinna'
-t=[]
-with open('README.md','r') as f:
-    lines=f.readlines()
-    for i in lines:
-        t.append(i)
-c=0
+import yaml
+f = open('data.yaml')
+# use safe_load instead load
+dataMap = yaml.safe_load(f)
+for i in dataMap:
+    hlist=i['range']
 
 
-
-
-
-print __name__  
+f.close()
